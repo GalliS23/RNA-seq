@@ -1,4 +1,4 @@
-# RNA-seq
+# RNA-seq - getting data from the company, check for download related corruption
 
 #check if the md5 number for the compressed file after download is the same as the one given by the company
 #open terminal and go to the folder of interest
