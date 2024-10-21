@@ -1,0 +1,19 @@
+# Novogene should Adaptors trimmed using fastp that generates a new QC report afterwards 
+# Download fastp (only need to do once)
+module load anaconda3/personal
+conda install -c bioconda fastp
+
+# Create file with list of sample names- done in terminal
+echo > "WT_D1_T1" > WT_D1_T1.txt
+
+# Run fastp on file containing list of samples
+#PBS -lwalltime=08:00:00
+#PBS -lselect=1:ncpus=200:mem=900gb
+
+module load anaconda3/personal
+for name in $(cat $PBS_O_WORKDIR/WT_D1_T1.txt)
+do
+/rds/general/user/sgalli/home/anaconda3/bin/fastp -i $PBS_O_WORKDIR/$name.R1.fq -I $PBS_O_WORKDIR/$name.R2.fq -o trimmed_$name.R1.fq -O trimmed_$name.R2.fq --detect_adapter_for_pe -l 20 -j $name.fastp.json -h $name.fastp.html
+done
+
+cp * $PBS_O_WORKDIR
