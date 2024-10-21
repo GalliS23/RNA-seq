@@ -4,14 +4,14 @@ module load anaconda3/personal
 conda install -c bioconda fastp
 
 # Create a a txt file with the name of the files to adaptor trim, NOTE: do not include .fastq.r1, just include file name and do this on terminal
-echo "WT_D1_T4" > WT_D1_T4.txt
+echo "WT_D3_T1" > WT_D3_T1.txt
 
 # Run fastp on file containing list of samples
 #PBS -lwalltime=08:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load anaconda3/personal
-for name in $(cat $PBS_O_WORKDIR/WT_D1_T4.txt)
+for name in $(cat $PBS_O_WORKDIR/WT_D3_T1.txt)
 do
 /rds/general/user/sgalli/home/anaconda3/bin/fastp -i $PBS_O_WORKDIR/$name.R1.fq -I $PBS_O_WORKDIR/$name.R2.fq -o trimmed_$name.R1.fq -O trimmed_$name.R2.fq --detect_adapter_for_pe -l 20 -j $name.fastp.json -h $name.fastp.html
 done
