@@ -4,4 +4,11 @@ wget https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/genes/ce11.ensGene.
 #unzip downloaded file
 gunzip ce11.ensGene.gtf.gz
 
-#create indexed genome
+#create indexed genome with job submission
+#PBS -lwalltime=08:00:00
+#PBS -lselect=1:ncpus=10:mem=900gb
+
+module load star
+STAR --runThreadN 12 --runMode genomeGenerate --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star --genomeFastaFiles /rds/general/project/diantonio/live/Silvia_Galli/cutntag_download/X204SC24034164-Z01-F001/01.RawData/genome/ce11.fa --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.gtf --sjdbOverhang 99
+
+cp * $PBS_O_WORKDIR
