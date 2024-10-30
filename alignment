@@ -1,0 +1,7 @@
+#download .gtf file for ce11 annotation 
+wget https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/genes/ce11.ensGene.gtf.gz
+
+#unzip downloaded file
+gunzip ce11.ensGene.gtf.gz
+
+#create indexed genome
