@@ -5,7 +5,7 @@ wget https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/genes/ce11.ensGene.
 gunzip ce11.ensGene.gtf.gz
 
 #create indexed genome with job submission
-#PBS -lwalltime=08:00:00
+#PBS -lwalltime=30:00:00
 #PBS -lselect=1:ncpus=10:mem=900gb
 
 module load star
@@ -15,7 +15,7 @@ cp * $PBS_O_WORKDIR
 
 #alignment
 
-#PBS -lwalltime=08:00:00
+#PBS -lwalltime=30:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load star
