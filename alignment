@@ -5,17 +5,17 @@ wget https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/genes/ce11.ensGene.
 gunzip ce11.ensGene.gtf.gz
 
 #create indexed genome with job submission
-#PBS -lwalltime=30:00:00
-#PBS -lselect=1:ncpus=10:mem=900gb
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
 
 module load star
-STAR --runThreadN 12 --runMode genomeGenerate --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star --genomeFastaFiles /rds/general/project/diantonio/live/Silvia_Galli/cutntag_download/X204SC24034164-Z01-F001/01.RawData/genome/ce11.fa --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.gtf --sjdbOverhang 99
+STAR --runThreadN 12 --runMode genomeGenerate --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star --genomeFastaFiles /rds/general/project/diantonio/live/Silvia_Galli/cutntag_download/X204SC24034164-Z01-F001/01.RawData/genome/ce11.fa --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.gtf --sjdbOverhang 99 --genomeSAindexNbases 12
 
 cp * $PBS_O_WORKDIR
 
 #alignment
 
-#PBS -lwalltime=30:00:00
+#PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load star
@@ -24,10 +24,9 @@ STAR --runThreadN 12 \
 --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star \
 --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.gtf \
 --sjdbOverhang 99 \
---outFileNamePrefix $name \
---readFilesCommand gunzip -c \
---readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T1/trimmed_WT_D1_T1.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T1/trimmed_WT_D1_T1.R2.fq \
+--outFileNamePrefix WT_D3_T1 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D3_T1/trimmed_WT_D3_T1.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D3_T1/trimmed_WT_D3_T1.R2.fq \
 --outSAMtype BAM SortedByCoordinate
-done
 
 cp * $PBS_O_WORKDIR
+
