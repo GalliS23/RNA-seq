@@ -30,3 +30,6 @@ STAR --runThreadN 12 \
 
 cp * $PBS_O_WORKDIR
 
+#index bam files 
+module load samtools 
+samtools index WT_D1_T1Aligned.sortedByCoord.out.bam 
