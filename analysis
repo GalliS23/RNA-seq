@@ -1,0 +1,10 @@
+# Conduct feature count, all .bam and .bai files of both conditions must be in same file (e.g conditions A and B in same one)
+#transfer all the files you want to compare to a single folder
+
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
+
+module load subread
+featureCounts -T 3 -a $PBS_O_WORKDIR/hg38.refGene.gtf -o PEO1_4_FC.txt $PBS_O_WORKDIR/*.bam
+
+cp * $PBS_O_WORKDIR
