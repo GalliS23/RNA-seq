@@ -5,6 +5,6 @@
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a $PBS_O_WORKDIR/hg38.refGene.gtf -o PEO1_4_FC.txt $PBS_O_WORKDIR/*.bam
+featureCounts -T 3 -a $PBS_O_WORKDIR/ce11.ensGene.gtf -o Day1_WT_him6_FC.txt $PBS_O_WORKDIR/*.bam
 
 cp * $PBS_O_WORKDIR
