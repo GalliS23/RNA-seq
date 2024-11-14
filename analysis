@@ -1,10 +1,30 @@
 # Conduct feature count, all .bam and .bai files of both conditions must be in same file (e.g conditions A and B in same one)
 #transfer all the files you want to compare to a single folder
 
+#modify .gtf file
+sed -E 's/gene_id ""([^"]+)\.[0-9]+""/gene_id ""\1""/g' ce11.ensGene.gtf > ce11.ensGene.modified_dq.gtf
+
+
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a $PBS_O_WORKDIR/ce11.ensGene.gtf -o Day1_WT_him6_FC.txt $PBS_O_WORKDIR/*.bam
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.modified_dq.gtf -o Day1_WT_him6_FC.txt $PBS_O_WORKDIR/*.bam
 
 cp * $PBS_O_WORKDIR
+
+#did not work
+#check if it's a problem of the bam files (aligned and indexed)
+
+samtools flagstat WT_D1_T1.out.bam
+samtools idxstats WT_D1_T1.out.bam
+samtools view WT_D1_T1.out.bam | cut -f 1,3,4,12
+
+
+#everything was good
+#Make sure the genes in the GTF file match those in your BAM files. If the gene identifiers in the BAM files don't match those in the GTF file, the counts will not be assigned correctly.
+awk '$3 == "gene" {print $9}' ce11.ensGene.modified_dq.gtf | cut -d '"' -f 2 > gtf_gene_ids.txt
+
+
+him6_D1_T1.out.bam.bai  him6_D1_T3.out.bam.bai  him6_D1_T4.out.bam.bai  WT_D1_T1.out.bam.bai  WT_D1_T2.out.bam.bai  WT_D1_T3.out.bam.bai  WT_D1_T4.out.bam.bai
+him6_D1_T1.out.bam  him6_D1_T3.out.bam      him6_D1_T4.out.bam      WT_D1_T1.out.bam        WT_D1_T2.out.bam      WT_D1_T3.out.bam      WT_D1_T4.out.bam
