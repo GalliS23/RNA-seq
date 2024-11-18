@@ -7,6 +7,10 @@ sed -E 's/gene_id ""([^"]+)\.[0-9]+""/gene_id ""\1""/g' ce11.ensGene.gtf > ce11.
 #modift .gft file to have a single "
 sed -E 's/""/"/g' ce11.ensGene.modified_01.gtf > ce11.ensGene.01.virgole.gtf
 
+#removing more " after geneID
+sed -E 's/"([a-z_]+) "([^"]+)"/\1 "\2"/g' ce11.ensGene.01.virgole.gtf > ce11.ensGene.01.cleaned.gtf
+
+
 
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
