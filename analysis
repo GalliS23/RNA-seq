@@ -1,15 +1,18 @@
 # Conduct feature count, all .bam and .bai files of both conditions must be in same file (e.g conditions A and B in same one)
 #transfer all the files you want to compare to a single folder
 
-#modify .gtf file
-sed -E 's/gene_id ""([^"]+)\.[0-9]+""/gene_id ""\1""/g' ce11.ensGene.gtf > ce11.ensGene.modified_dq.gtf
+#modify .gtf file to eliminate .01
+sed -E 's/gene_id ""([^"]+)\.[0-9]+""/gene_id ""\1""/g' ce11.ensGene.gtf > ce11.ensGene.modified_01.gtf
+
+#modift .gft file to have a single "
+sed -E 's/""/"/g' ce11.ensGene.modified_01.gtf > ce11.ensGene.01.virgole.gtf
 
 
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.modified_dq.gtf -o Day1_WT_him6_FC.txt $PBS_O_WORKDIR/*.bam
+featureCounts -T 1 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.01.virgole.gtf -o Day1_WT_him6_FC.txt $PBS_O_WORKDIR/*.bam
 
 cp * $PBS_O_WORKDIR
 
