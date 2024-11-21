@@ -15,12 +15,12 @@ sed -e 's/chrI/I/g' \
     ce11.ensGene.gtf > ce11.ensGene01.gtf 
 
 
-#create indexed genome with job submission
+#create indexed genome with job submission with 149
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load star
-STAR --runThreadN 12 --runMode genomeGenerate --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star --genomeFastaFiles /rds/general/project/diantonio/live/Silvia_Galli/cutntag_download/X204SC24034164-Z01-F001/01.RawData/genome/ce11.fa --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf --sjdbOverhang 99 --genomeSAindexNbases 12
+STAR --runThreadN 12 --runMode genomeGenerate --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star --genomeFastaFiles /rds/general/project/diantonio/live/Silvia_Galli/cutntag_download/X204SC24034164-Z01-F001/01.RawData/genome/ce11.fa --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf --sjdbOverhang 149 --genomeSAindexNbases 12
 
 cp * $PBS_O_WORKDIR
 
