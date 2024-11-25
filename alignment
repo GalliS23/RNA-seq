@@ -32,11 +32,11 @@ cp * $PBS_O_WORKDIR
 module load star
 
 STAR --runThreadN 12 \
---genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star \
---sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene.gtf \
---sjdbOverhang 99 \
---outFileNamePrefix WT_D3_T1 \
---readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D3_T1/trimmed_WT_D3_T1.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D3_T1/trimmed_WT_D3_T1.R2.fq \
+--genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
+--sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
+--sjdbOverhang 149 \
+--outFileNamePrefix him6_D1_T4_01 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_D1_T4/trimmed_him6_D1_T4.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_D1_T4/trimmed_him6_D1_T4.R2.fq \
 --outSAMtype BAM SortedByCoordinate
 
 cp * $PBS_O_WORKDIR
@@ -64,4 +64,4 @@ cp * $PBS_O_WORKDIR
 
 #index bam files 
 module load samtools 
-samtools index WT_D1_T1Aligned.sortedByCoord.out.bam 
+samtools index  him6_D1_T4_01Aligned.sortedByCoord.out.bam 
