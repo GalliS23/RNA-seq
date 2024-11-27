@@ -35,8 +35,8 @@ STAR --runThreadN 12 \
 --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
 --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
 --sjdbOverhang 149 \
---outFileNamePrefix him6_D1_T4_01 \
---readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_D1_T4/trimmed_him6_D1_T4.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_D1_T4/trimmed_him6_D1_T4.R2.fq \
+--outFileNamePrefix WT_D1_T2_100 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T2/trimmed_100_WT_D1_T2.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T2/trimmed_100_WT_D1_T2.R2.fq \
 --outSAMtype BAM SortedByCoordinate
 
 cp * $PBS_O_WORKDIR
