@@ -31,7 +31,7 @@ done
 
 cp * $PBS_O_WORKDIR
 
-fastp -i WT_D1_T1.R1.fq -I WT_D1_T1.R2.fq -o trimmed_02_WT_D1_T1.R1.fq -O trimmed_02_WT_D1_T1.R2.fq --detect_adapter_for_pe -l 50 -j $name.02.fastp.json -h $name.02.fastp.html
+fastp -i WT_D1_T2.R1.fq -I WT_D1_T2.R2.fq -o trimmed_100_WT_D1_T2.R1.fq -O trimmed_100_WT_D1_T2.R2.fq --detect_adapter_for_pe -l 100 -j WT_D1_T2.100.fastp.json -h WT_D1_T2.100.fastp.html
 
 module load fastqc
 fastqc trimmed_02_WT_D1_T1.R1.fq -d $TMPDIR -o .
