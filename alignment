@@ -41,7 +41,7 @@ STAR --runThreadN 12 \
 
 cp * $PBS_O_WORKDIR
 
-#alignment with filtering multi-mapped reads
+#alignment with filtering changing parameters
 
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
@@ -51,9 +51,15 @@ module load star
 STAR --runThreadN 12 \
 --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
 --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
+--outFilterMatchNmin 30 \
+--outFilterMatchNminOverLread 0.5 \
+--outFilterScoreMinOverLread 0.5 \
 --sjdbOverhang 149 \
---outFileNamePrefix him6_D1_T4_01 \
+--outFileNamePrefix WT_D1_T1_20 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T1/trimmed_WT_D1_T1.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T1/trimmed_WT_D1_T1.R1.fq \
+--outSAMtype BAM SortedByCoordinate
 
+cp * $PBS_O_WORKDIR
 
 
 
