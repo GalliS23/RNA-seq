@@ -35,13 +35,13 @@ STAR --runThreadN 12 \
 --genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
 --sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
 --sjdbOverhang 149 \
---outFileNamePrefix WT_D1_T2_100 \
---readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T2/trimmed_100_WT_D1_T2.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_T2/trimmed_100_WT_D1_T2.R2.fq \
+--outFileNamePrefix wrn_D1_T3_01 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/wrn_D1_T3/trimmed_wrn_D1_T3.R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/wrn_D1_T3/trimmed_wrn_D1_T3.R2.fq \
 --outSAMtype BAM SortedByCoordinate
 
 cp * $PBS_O_WORKDIR
 
-#alignment with filtering changing parameters
+#alignment with filtering changing parameters (not used at the end)
 
 #PBS -lwalltime=72:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
@@ -69,4 +69,4 @@ cp * $PBS_O_WORKDIR
 
 #index bam files 
 module load samtools 
-samtools index  him6_D1_T4_01Aligned.sortedByCoord.out.bam 
+samtools index  wrn_D1_T2_01Aligned.sortedByCoord.out.bam 
