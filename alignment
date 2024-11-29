@@ -69,4 +69,4 @@ cp * $PBS_O_WORKDIR
 
 #index bam files 
 module load samtools 
-samtools index  wrn_D1_T2_01Aligned.sortedByCoord.out.bam 
+samtools index  WT_D3_T1_01Aligned.sortedByCoord.out.bam 
