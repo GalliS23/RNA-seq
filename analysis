@@ -16,7 +16,7 @@ sed -E 's/"([a-z_]+) "([^"]+)"/\1 "\2"/g' ce11.ensGene.01.virgole.gtf > ce11.ens
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o Day1_him6_wrn1_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_wrn1/*.bam
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o Day1_him6_wrn1_FC_corrected.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_wrn1/*.bam
 
 cp * $PBS_O_WORKDIR
 
@@ -32,18 +32,18 @@ samtools view WT_D1_T1.out.bam | cut -f 1,3,4,12
 
 
 #remove first part of the file that might be confusing iDep2 - and yes, this was the problem
-sed '/^#/d' Day1_him6_wrn1_FC.txt > Day1_him6_wrn1_FC_cleaned_file.txt
+sed '/^#/d' Day1_him6_wrn1_FC_corrected.txt > Day1_him6_wrn1_FC_corrected_cleaned_file.txt
 
 #remove .1 post geneID because also this might be confusing iDep - yes, this was the problem
-sed 's/\.[0-9]*//g' Day1_him6_wrn1_FC_cleaned_file.txt > Day1_him6_wrn1_FC_cleaned_file_no_dot.txt
+sed 's/\.[0-9]*//g' Day1_him6_wrn1_FC_corrected_cleaned_file.txt > Day1_him6_wrn1_FC_corrected_cleaned_file_no_dot.txt
 
 # modify the name of the column corresponding to the samples because too complex in the final file
 # Example renaming columns in a .txt file
-sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/him6_wrn1/||g' Day1_him6_wrn1_FC_cleaned_file_no_dot.txt
-sed -i 's|_01AlignedsortedByCoordoutbam||g' Day1_him6_wrn1_FC_cleaned_file_no_dot.txt
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/him6_wrn1/||g' Day1_him6_wrn1_FC_corrected_cleaned_file_no_dot.txt
+sed -i 's|_01AlignedsortedByCoordoutbam||g' Day1_him6_wrn1_FC_corrected_cleaned_file_no_dot.txt
 
 #cut out the non-sample columns
-cut -f1,7- Day1_him6_wrn1_FC_cleaned_file_no_dot.txt > Day1_him6_wrn1_FC_only_samples.txt
+cut -f1,7- Day1_him6_wrn1_FC_corrected_cleaned_file_no_dot.txt > Day1_him6_wrn1_FC_corrected_only_samples.txt
 
 
 #everything was good
