@@ -16,7 +16,7 @@ sed -E 's/"([a-z_]+) "([^"]+)"/\1 "\2"/g' ce11.ensGene.01.virgole.gtf > ce11.ens
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o Day1_WT_wrn_FC_corrected.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/wrn_WT/*.bam
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o Day1_him6_wrn1_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/him6_wrn1/*.bam
 
 cp * $PBS_O_WORKDIR
 
