@@ -16,7 +16,7 @@ sed -E 's/"([a-z_]+) "([^"]+)"/\1 "\2"/g' ce11.ensGene.01.virgole.gtf > ce11.ens
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o WT_Day1_Day3_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT_D1_vs_D3/*.bam
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o WT_D1_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/WT/*.bam
 
 cp * $PBS_O_WORKDIR
 
@@ -24,27 +24,36 @@ cp * $PBS_O_WORKDIR
 #check if it is because it gets confused with gene_id and exons
 featureCounts -a annotation.gtf -o counts.txt -M -O -g gene_id aligned_reads.bam
 
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o OM_WT14_wrn1_D1_FC.txt -M -O /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/wrn_WT/*.bam
+
+
 #check if it's a problem of the bam files (aligned and indexed)
 
 samtools flagstat WT_D1_T1.out.bam
 samtools idxstats WT_D1_T1.out.bam
 samtools view WT_D1_T1.out.bam | cut -f 1,3,4,12
 
+sed '/^#/d' OM_WT14_wrn1_D1_FC.txt > OM_WT14_wrn1_D1_FC_cleaned_file.txt
+sed 's/\.[0-9]*//g' OM_WT14_wrn1_D1_FC_cleaned_file.txt > OM_WT14_wrn1_D1_FC_cleaned_file_no_dot.txt
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/wrn_WT/||g' OM_WT14_wrn1_D1_FC_cleaned_file_no_dot.txt
+sed -i 's|_01AlignedsortedByCoordoutbam||g' OM_WT14_wrn1_D1_FC_cleaned_file_no_dot.txt
+cut -f1,7- OM_WT14_wrn1_D1_FC_cleaned_file_no_dot.txt > OM_WT14_wrn1_D1_FC_only_samples.txt
 
 #remove first part of the file that might be confusing iDep2 - and yes, this was the problem
-sed '/^#/d' WT_Day1_Day3_FC.txt > WT_Day1_Day3_FC_cleaned_file.txt
+sed '/^#/d' OM_WT_him6_D1_FC.txt > OM_WT_him6_D1_FC_cleaned_file.txt
 
 #remove .1 post geneID because also this might be confusing iDep - yes, this was the problem
-sed 's/\.[0-9]*//g' WT_Day1_Day3_FC_cleaned_file.txt > WT_Day1_Day3_FC_cleaned_file_no_dot.txt
+sed 's/\.[0-9]*//g' WT_D1_FC_cleaned_file.txt >  WT_D1_FC_cleaned_file_no_dot.txt
 
 # modify the name of the column corresponding to the samples because too complex in the final file
 # Example renaming columns in a .txt file
-sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/WT_D1_vs_D3/||g' WT_Day1_Day3_FC_cleaned_file_no_dot.txt
-sed -i 's|_01AlignedsortedByCoordoutbam||g' WT_Day1_Day3_FC_cleaned_file_no_dot.txt
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/WT_D1/||g' WT_D1_FC_cleaned_file_no_dot.txt
+sed -i 's|_01AlignedsortedByCoordoutbam||g' WT_D1_FC_cleaned_file_no_dot.txt
 
 #cut out the non-sample columns
-cut -f1,7- WT_Day1_Day3_FC_cleaned_file_no_dot.txt > WT_Day1_Day3_FC_only_samples.txt
+cut -f1,7- WT_D1_FC_cleaned_file_no_dot.txt > WT_D1_FC_only_samples.txt
 
+sed -i 's|WT_||g' WT_D1_FC_cleaned_file_no_dot.txt
 
 #everything was good
 #Make sure the genes in the GTF file match those in your BAM files. If the gene identifiers in the BAM files don't match those in the GTF file, the counts will not be assigned correctly.
