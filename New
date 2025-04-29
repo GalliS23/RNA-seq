@@ -1,0 +1,2 @@
+#move to a single folder
+mv *.fq.gz /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WT
