@@ -1,2 +1,45 @@
 #move to a single folder
 mv *.fq.gz /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WT
+
+module load anaconda3/personal
+conda install -c bioconda fastp
+
+# Create a a txt file with the name of the files to adaptor trim, NOTE: do not include .fastq.r1, just include file name and do this on terminal
+echo "WRN1_1 WRN1_2 WRN1_3 WRN1_4" > WRN1.txt
+
+# Run fastp on file containing list of samples
+#PBS -lwalltime=08:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
+
+module load anaconda3/personal
+PBS_O_WORKDIR=$(pwd)
+for name in $(cat $PBS_O_WORKDIR/WRN1.txt)
+do
+/rds/general/user/sgalli/home/anaconda3/bin/fastp -i $PBS_O_WORKDIR/$name_R1.fq -I $PBS_O_WORKDIR/$name_R2.fq -o trimmed_$name_R1.fq -O trimmed_$name_R2.fq --detect_adapter_for_pe -l 50 -j $name.fastp.json -h $name.fastp.html
+done
+
+cp * $PBS_O_WORKDIR
+
+#PBS -lwalltime=08:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
+
+module load anaconda3/personal
+PBS_O_WORKDIR=$(pwd)
+
+for name in $(cat WT.txt)
+do
+  echo "Processing name: '$name'"  # Debugging line
+  echo "Input files: $PBS_O_WORKDIR/${name}_R1.fq and $PBS_O_WORKDIR/${name}_R2.fq"  # Show the file paths
+
+  if [ -z "$name" ]; then
+    echo "ERROR: Empty name detected"
+    continue
+  fi
+
+  fastp -i $PBS_O_WORKDIR/${name}_R1.fq \
+        -I $PBS_O_WORKDIR/${name}_R2.fq \
+        -o trimmed_${name}_R1.fq \
+        -O trimmed_${name}_R2.fq \
+        --detect_adapter_for_pe -l 50 --thread 8 \
+        -j ${name}.fastp.json -h ${name}.fastp.html
+done
