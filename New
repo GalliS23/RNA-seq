@@ -75,4 +75,22 @@ done
 
 cp *.html *.zip /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WT
 
+#alignment
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
+
+module load star
+
+STAR --runThreadN 12 \
+--genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
+--sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
+--sjdbOverhang 149 \
+--outFileNamePrefix WRN1_4 \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WRN/trimmed/trimmed_WRN1_4_R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WRN/trimmed/trimmed_WRN1_4_R2.fq \
+--outSAMtype BAM SortedByCoordinate
+
+cp *.bam /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WRN/trimmed
+
+#merging technical replicates
+cat trimmed_WRN1_2_02_R1.fq trimmed_WRN1_2_01_R1.fq > trimmed_WRN1_2_R1.fq
 
