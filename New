@@ -61,3 +61,18 @@ do
     -j "${name}.fastp.json" -h "${name}.fastp.html"
 done
 ~       
+
+#quality control with fastqc
+#PBS -l walltime=08:00:00
+#PBS -l select=1:ncpus=1:mem=900gb
+
+module load fastqc
+
+for file in /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WT/*_R2.fq
+do
+fastqc $file -d $TMPDIR -o .
+done
+
+cp *.html *.zip /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/WT
+
+
