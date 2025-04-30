@@ -5,17 +5,25 @@ module load anaconda3/personal
 conda install -c bioconda fastp
 
 # Create a a txt file with the name of the files to adaptor trim, NOTE: do not include .fastq.r1, just include file name and do this on terminal
-echo "WRN1_1 WRN1_2 WRN1_3 WRN1_4" > WRN1.txt
+cat > HS_HIM6.txt <<EOF
+HS_HIM6_1
+HS_HIM6_2
+HS_HIM6_3
+HS_HIM6_4
+EOF
 
 # Run fastp on file containing list of samples
 #PBS -lwalltime=08:00:00
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load anaconda3/personal
-PBS_O_WORKDIR=$(pwd)
-for name in $(cat $PBS_O_WORKDIR/WRN1.txt)
+
+PBS_O_WORKDIR="/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6"
+cd "$PBS_O_WORKDIR"
+
+for name in $(cat HS_HIM6.txt)
 do
-/rds/general/user/sgalli/home/anaconda3/bin/fastp -i $PBS_O_WORKDIR/$name_R1.fq -I $PBS_O_WORKDIR/$name_R2.fq -o trimmed_$name_R1.fq -O trimmed_$name_R2.fq --detect_adapter_for_pe -l 50 -j $name.fastp.json -h $name.fastp.html
+/rds/general/user/sgalli/home/anaconda3/bin/fastp -i "$name_R1.fq" -I "$name_R2.fq" -o "trimmed_$name_R1.fq" -O "trimmed_$name_R2.fq" --detect_adapter_for_pe -l 50 --thread 8 -j "$name.fastp.json" -h "$name.fastp.html"
 done
 
 cp * $PBS_O_WORKDIR
@@ -29,14 +37,11 @@ cp * $PBS_O_WORKDIR
 module load anaconda3/personal
 
 # Manually set working directory
-PBS_O_WORKDIR="/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_WRN1"
+PBS_O_WORKDIR="/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6"
 cd "$PBS_O_WORKDIR"
 
-echo "PBS_O_WORKDIR is: $PBS_O_WORKDIR"
-pwd
-
-# Loop over entries in your HS_WRN1.txt file
-for name in $(cat HS_WRN1.txt)
+# Loop over entries in your HS_HIM6.txt file
+for name in $(cat HS_HIM6.txt)
 do
   echo "Processing $name"
 
