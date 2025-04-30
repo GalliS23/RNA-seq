@@ -20,26 +20,39 @@ done
 
 cp * $PBS_O_WORKDIR
 
-#PBS -lwalltime=08:00:00
-#PBS -lselect=1:ncpus=250:mem=900gb
+
+
+
+#PBS -l walltime=08:00:00
+#PBS -l select=1:ncpus=250:mem=900gb
 
 module load anaconda3/personal
-PBS_O_WORKDIR=$(pwd)
 
-for name in $(cat WT.txt)
+# Manually set working directory
+PBS_O_WORKDIR="/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_WRN1"
+cd "$PBS_O_WORKDIR"
+
+echo "PBS_O_WORKDIR is: $PBS_O_WORKDIR"
+pwd
+
+# Loop over entries in your HS_WRN1.txt file
+for name in $(cat HS_WRN1.txt)
 do
-  echo "Processing name: '$name'"  # Debugging line
-  echo "Input files: $PBS_O_WORKDIR/${name}_R1.fq and $PBS_O_WORKDIR/${name}_R2.fq"  # Show the file paths
+  echo "Processing $name"
 
-  if [ -z "$name" ]; then
-    echo "ERROR: Empty name detected"
+  # Check if files exist
+  if [ ! -f "${name}_R1.fq" ] || [ ! -f "${name}_R2.fq" ]; then
+    echo "ERROR: Missing input files for $name"
     continue
   fi
 
-  fastp -i $PBS_O_WORKDIR/${name}_R1.fq \
-        -I $PBS_O_WORKDIR/${name}_R2.fq \
-        -o trimmed_${name}_R1.fq \
-        -O trimmed_${name}_R2.fq \
-        --detect_adapter_for_pe -l 50 --thread 8 \
-        -j ${name}.fastp.json -h ${name}.fastp.html
+  # Run fastp
+  /rds/general/user/sgalli/home/anaconda3/bin/fastp \
+    -i "${name}_R1.fq" \
+    -I "${name}_R2.fq" \
+    -o "trimmed_${name}_R1.fq" \
+    -O "trimmed_${name}_R2.fq" \
+    --detect_adapter_for_pe -l 50 --thread 8 \
+    -j "${name}.fastp.json" -h "${name}.fastp.html"
 done
+~       
