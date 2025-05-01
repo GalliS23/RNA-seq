@@ -94,3 +94,25 @@ cp *.bam /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC
 #merging technical replicates
 cat trimmed_WRN1_2_02_R1.fq trimmed_WRN1_2_01_R1.fq > trimmed_WRN1_2_R1.fq
 
+#tidy up FC file
+#remove first part of the file that might be confusing iDep2 - and yes, this was the problem
+sed '/^#/d' WT_WRN1_D1_FC.txt > WT_WRN1_D1_FC_clean.txt
+
+#remove .1 post geneID because also this might be confusing iDep - yes, this was the problem
+sed 's/\.[0-9]*//g' WT_WRN1_D1_FC_clean.txt >  WT_WRN1_D1_FC_clean_nodot.txt
+
+# modify the name of the column corresponding to the samples because too complex in the final file
+# Example renaming columns in a .txt file
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01RawData/WT_WRN1/||g' WT_WRN1_D1_FC_clean_nodot.txt
+sed -i 's|bam||g' WT_WRN1_D1_FC_clean_nodot.txt
+
+#cut out the non-sample columns
+cut -f1,7- WT_WRN1_D1_FC_clean_nodot.txt > WT_WRN1_D1_FC_samples.txt
+
+
+
+sed -i 's|WT_||g' WT_D1_FC_cleaned_file_no_dot.txt
+
+#everything was good
+#Make sure the genes in the GTF file match those in your BAM files. If the gene identifiers in the BAM files don't match those in the GTF file, the counts will not be assigned correctly.
+awk '$3 == "gene" {print $9}' ce11.ensGene.modified_dq.gtf | cut -d '"' -f 2 > gtf_gene_ids.txt
