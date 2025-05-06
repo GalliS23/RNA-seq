@@ -97,24 +97,24 @@ cat trimmed_WRN1_2_02_R1.fq trimmed_WRN1_2_01_R1.fq > trimmed_WRN1_2_R1.fq
 #PBS -lselect=1:ncpus=250:mem=900gb
 
 module load subread
-featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o all_samples_D1_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/all_samples/*.bam
+featureCounts -T 3 -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o Batch1_2_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/all_samples/*.bam
 
 cp *.txt *.summary /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/all_samples
 
 #tidy up FC file
 #remove first part of the file that might be confusing iDep2 - and yes, this was the problem
-sed '/^#/d' all_samples_PE_D1_FC.txt > all_samples_PE_D1_FC_clean.txt
+sed '/^#/d' Batch1_2_FC.txt > Batch1_2_FC_clean.txt
 
 #remove .1 post geneID because also this might be confusing iDep - yes, this was the problem
-sed 's/\.[0-9]*//g' all_samples_PE_D1_FC_clean.txt >  all_samples_PE_D1_FC_clean_nodot.txt
+sed 's/\.[0-9]*//g' Batch1_2_FC_clean.txt >  Batch1_2_FC_clean_nodot.txt
 
 # modify the name of the column corresponding to the samples because too complex in the final file
 # Example renaming columns in a .txt file
-sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01RawData/all_samples/||g' all_samples_PE_D1_FC_clean_nodot.txt
-sed -i 's|bam||g' all_samples_PE_D1_FC_clean_nodot.txt
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01RawData/all_samples/||g' Batch1_2_FC_clean_nodot.txt
+sed -i 's|bam||g' Batch1_2_FC_clean_nodot.txt
 
 #cut out the non-sample columns
-cut -f1,7- all_samples_PE_D1_FC_clean_nodot.txt > all_samples_PE_D1_FC_samples.txt
+cut -f1,7- Batch1_2_FC_clean_nodot.txt > Batch1_2_FC_samples.txt
 
 #with PE
 #PBS -lwalltime=72:00:00
