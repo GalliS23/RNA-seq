@@ -112,6 +112,8 @@ sed 's/\.[0-9]*//g' Batch1_2_FC_clean.txt >  Batch1_2_FC_clean_nodot.txt
 # Example renaming columns in a .txt file
 sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01RawData/all_samples/||g' Batch1_2_FC_clean_nodot.txt
 sed -i 's|bam||g' Batch1_2_FC_clean_nodot.txt
+sed -i 's|_01AlignedsortedByCoordout||g' Batch1_2_FC_samples.txt
+
 
 #cut out the non-sample columns
 cut -f1,7- Batch1_2_FC_clean_nodot.txt > Batch1_2_FC_samples.txt
