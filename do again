@@ -1,4 +1,18 @@
+#alignment without trimming
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
 
+module load star
+
+STAR --runThreadN 12 \
+--genomeDir /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/star149 \
+--sjdbGTFfile /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf \
+--sjdbOverhang 149 \
+--outFileNamePrefix HS_HIM6_1_notrim \
+--readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/HS_HIM6_1_R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/HS_HIM6_1_R2.fq \
+--outSAMtype BAM SortedByCoordinate
+
+cp *.bam *.out /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/
 
 
 
