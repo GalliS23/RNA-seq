@@ -10,10 +10,25 @@ STAR --runThreadN 12 \
 --sjdbOverhang 149 \
 --outFileNamePrefix HS_HIM6_1_notrim \
 --readFilesIn /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/HS_HIM6_1_R1.fq /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/HS_HIM6_1_R2.fq \
---outSAMtype BAM SortedByCoordinate
+--readFilesCommand zcat \
+--outSAMtype BAM SortedByCoordinate \
+--outFilterMatchNminOverLread 0.3 \
+--outFilterScoreMinOverLread 0.3 \
+--outSAMunmapped Within KeepPairs
 
 cp *.bam *.out /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01.RawData/HS_HIM6/
 
 
+#with PE
+#PBS -lwalltime=72:00:00
+#PBS -lselect=1:ncpus=250:mem=900gb
 
-WT_D1_T4.R1.fq 
+module load subread
+featureCounts -T 3 -p --countReadPairs -a /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/genome/ce11.ensGene01.gtf -o HIM6_WT_PE_D1_FC.txt /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/W_H/*.bam
+
+cp *.txt *.summary /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01.RawData/W_H
+
+
+seqtk seq -A trimmed_WT_D1_T1.R1.fq | awk '{if(NR%2==0) print length($0)}' | sort | uniq -c | sort -n
+
+samtools view -f 4 WT_D1_T1_01Aligned.sortedByCoord.out.bam | head -n 20
