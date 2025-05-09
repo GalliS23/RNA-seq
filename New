@@ -103,20 +103,20 @@ cp *.txt *.summary /rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_
 
 #tidy up FC file
 #remove first part of the file that might be confusing iDep2 - and yes, this was the problem
-sed '/^#/d' Batch1_2_FC.txt > Batch1_2_FC_clean.txt
+sed '/^#/d' HIM6_WT_PE_D1_FC.txt > HIM6_WT_PE_D1_FC_clean.txt
 
 #remove .1 post geneID because also this might be confusing iDep - yes, this was the problem
-sed 's/\.[0-9]*//g' Batch1_2_FC_clean.txt >  Batch1_2_FC_clean_nodot.txt
+sed 's/\.[0-9]*//g' HIM6_WT_PE_D1_FC_clean.txt >  HIM6_WT_PE_D1_FC_clean_nodot.txt
 
 # modify the name of the column corresponding to the samples because too complex in the final file
 # Example renaming columns in a .txt file
-sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC25040728-Z01-F001/01RawData/all_samples/||g' Batch1_2_FC_clean_nodot.txt
-sed -i 's|bam||g' Batch1_2_FC_clean_nodot.txt
-sed -i 's|_01AlignedsortedByCoordout||g' Batch1_2_FC_samples.txt
+sed -i 's|/rds/general/project/diantonio/live/Silvia_Galli/elegans_RNA_seq/X204SC24093618-Z01-F001/01RawData/W_H/||g' HIM6_WT_PE_D1_FC_clean_nodot.txt
+sed -i 's|bam||g' HIM6_WT_PE_D1_FC_clean_nodot.txt
+sed -i 's|_01AlignedsortedByCoordoutbam||g' HIM6_WT_PE_D1_FC_clean_nodot.txt
 
 
 #cut out the non-sample columns
-cut -f1,7- Batch1_2_FC_clean_nodot.txt > Batch1_2_FC_samples.txt
+cut -f1,7- HIM6_WT_PE_D1_FC_clean_nodot.txt > HIM6_WT_PE_D1_FC_samples.txt
 
 #with PE
 #PBS -lwalltime=72:00:00
